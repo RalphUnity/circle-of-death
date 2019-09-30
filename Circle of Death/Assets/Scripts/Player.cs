@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float movementSpeed;
     public float waitTime;
     public float points;
+    public float maxHealth;
+    public float health;
 
     public GameObject bulletSpawnPoint;
     public GameObject playerObj;
@@ -15,14 +17,20 @@ public class Player : MonoBehaviour
 
     private float hitDist = 0.0f;
 
-    //Methods
+    void Start()
+    {
+        health = maxHealth;
+    }
+
+
+    // Update is called once per frame
     void Update()
     {
         //Player facing mouse
         Plane playerPlane = new Plane(Vector3.up, transform.position);
         Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if(playerPlane.Raycast(ray, out hitDist))
+        if (playerPlane.Raycast(ray, out hitDist))
         {
             Vector3 targetPoint = ray.GetPoint(hitDist);
             Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
@@ -50,10 +58,19 @@ public class Player : MonoBehaviour
         {
             Shoot();
         }
+
+        //Player Death
+        if (health <= 0)
+            Die();
     }
 
     void Shoot()
     {
         Instantiate(bullet.transform, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

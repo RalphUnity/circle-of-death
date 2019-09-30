@@ -11,7 +11,7 @@ public class Camera : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
-    //Methods
+    // Update is called once per frame
     void Update()
     {
         Vector3 pos = new Vector3();
@@ -19,6 +19,5 @@ public class Camera : MonoBehaviour
         pos.z = player.position.z - 7f;
         pos.y = player.position.y + height;
         transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smooth);
-
     }
 }

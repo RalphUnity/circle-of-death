@@ -8,23 +8,54 @@ public class Enemy : MonoBehaviour
     //Variables
     public float health;
     public float pointsToGive;
+    public float waitTime;
 
-    public GameObject player;
+    private float currentTime;
+    private bool shot;
+
+    private GameObject player;
+    private Transform bulletSpawned;
+    private Transform gun;
+
+    public GameObject bullet;
+    public Transform bulletSpawnPoint;
 
 
-    //Methods
+    // Start is called before the first frame update
     public void Start()
     {
         player = GameObject.FindWithTag("Player");
+
+        gun = this.transform.GetChild(0);
+        bulletSpawnPoint = gun.transform.GetChild(0);
+
     }
 
     // Update is called once per frame
     public void Update()
     {
-        if(health <= 0)
+        if (!bulletSpawnPoint)
+        {
+            gun = this.transform.GetChild(0);
+            bulletSpawnPoint = gun.transform.GetChild(0);
+        }
+          
+
+        if (health <= 0)
         {
             Die();
         }
+
+        this.transform.LookAt(player.transform);
+
+        if (currentTime == 0)
+            Shoot();
+
+        if (shot && currentTime < waitTime)
+            currentTime += 1 * Time.deltaTime;
+
+        if (currentTime >= waitTime)
+            currentTime = 0;
     }
 
     public void Die()
@@ -33,4 +64,13 @@ public class Enemy : MonoBehaviour
 
         player.GetComponent<Player>().points += pointsToGive;
     }
+
+    public void Shoot()
+    {
+        shot = true;
+
+        bulletSpawned = Instantiate(bullet.transform, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+        bulletSpawned.rotation = this.transform.rotation;
+    }
+
 }
