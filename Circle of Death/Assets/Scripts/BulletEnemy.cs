@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletEnemy : MonoBehaviour
 {
     //Variables
     public float speed;
@@ -45,10 +45,19 @@ public class Bullet : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if(other.tag == "Enemy")
         {
-            triggeringEnemy = other.gameObject;
-            triggeringEnemy.GetComponent<Enemy>().health -= damage;
+            gameObject.SetActive(false);
+        }
+
+        if (other.tag == "Player")
+        {
+            player.GetComponent<Player>().health -= 20;
+            gameObject.SetActive(false);
+        }
+
+        if (other.tag == "ForceField")
+        {
             gameObject.SetActive(false);
         }
 

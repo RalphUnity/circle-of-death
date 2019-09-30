@@ -10,16 +10,29 @@ public class Player : MonoBehaviour
     public float points;
     public float maxHealth;
     public float health;
-
+ 
     public GameObject bulletSpawnPoint;
     public GameObject playerObj;
     public GameObject bullet;
+    public GameObject forceField;
+
+    List<GameObject> bulletList;
 
     private float hitDist = 0.0f;
+    private bool isShield = false;
 
     void Start()
     {
         health = maxHealth;
+
+        //Object Pooling Initialization
+        bulletList = new List<GameObject>();
+        for (int i = 0; i < 12; i++)
+        {
+            GameObject objBullet = Instantiate(bullet);
+            objBullet.SetActive(false);
+            bulletList.Add(objBullet);
+        }
     }
 
 
@@ -59,6 +72,11 @@ public class Player : MonoBehaviour
             Shoot();
         }
 
+        //Force Field Activation
+        if (Input.GetKeyDown(KeyCode.R))
+            isShield = !isShield;
+            forceField.SetActive(isShield);
+
         //Player Death
         if (health <= 0)
             Die();
@@ -66,11 +84,24 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(bullet.transform, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+
+        //Shoot objects using object pooling
+        for (int i = 0; i < bulletList.Count; i++)
+        {
+            if (!bulletList[i].activeInHierarchy)
+            {
+                bulletList[i].transform.position = bulletSpawnPoint.transform.position;
+                bulletList[i].transform.rotation = bulletSpawnPoint.transform.rotation;
+                bulletList[i].SetActive(true);
+                break;
+            }
+        }
+
     }
 
     public void Die()
     {
+        //playerObj.SetActive(false);
         Destroy(gameObject);
     }
 }

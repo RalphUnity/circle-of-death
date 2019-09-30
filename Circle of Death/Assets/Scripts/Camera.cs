@@ -19,5 +19,10 @@ public class Camera : MonoBehaviour
         pos.z = player.position.z - 7f;
         pos.y = player.position.y + height;
         transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smooth);
+
+        if(player == null)
+        {
+
+        }
     }
 }
