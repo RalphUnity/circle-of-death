@@ -43,21 +43,21 @@ public class BulletEnemy : MonoBehaviour
     }
 
 
-    public void OnTriggerEnter(Collider other)
+    public void OnCollisionEnter(Collision collision)
     {
-        if(other.tag == "Enemy")
+        if(collision.transform.tag == "Enemy")
         {
             gameObject.SetActive(false);
         }
 
-        if (other.tag == "Player")
+        if (collision.transform.tag == "Player")
         {
-            player.GetComponent<Player>().health -= 20;
-            player.GetComponent<PlayerTest>().health -= 20;
+            player.GetComponent<Player>().maxHealth -= 20;
+            player.GetComponent<PlayerTest>().maxHealth -= 20;
             gameObject.SetActive(false);
         }
 
-        if (other.tag == "ForceField")
+        if (collision.transform.tag == "ForceField")
         {
             gameObject.SetActive(false);
         }

@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("PlayerPosition");
         health = startHealth;
 
         //Object Pooling Initialization
@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
             Die();
         }
 
-        this.transform.LookAt(player.transform);
+        transform.LookAt(player.transform);
 
         if (currentTime == 0)
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerTest : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerTest : MonoBehaviour
 
     public GameObject bulletSpawnPoint;
     public GameObject playerObj;
+    public GameObject playerPosition;
     public GameObject bullet;
     public GameObject forceField;
 
@@ -21,6 +23,9 @@ public class PlayerTest : MonoBehaviour
 
     private float movementSpeed = 7f;
     private float hitDist = 0.0f;
+
+    [Header("Unity Stuff")]
+    public Image healthBar;
 
 
     // Start is called before the first frame update
@@ -55,6 +60,8 @@ public class PlayerTest : MonoBehaviour
             playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, targetRotation, 7f * Time.deltaTime);
         }
 
+        healthBar.fillAmount = maxHealth / health;
+
         //Character movement
         DetectInput();
 
@@ -64,7 +71,7 @@ public class PlayerTest : MonoBehaviour
         }
 
         //Player Death
-        if (health <= 0)
+        if (maxHealth <= 0)
         {
             Die();
         }

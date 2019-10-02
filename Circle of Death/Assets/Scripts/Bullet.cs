@@ -37,11 +37,11 @@ public class Bullet : MonoBehaviour
     }
 
 
-    public void OnTriggerEnter(Collider other)
+    public void OnCollisionEnter(Collision collision)
     {
-        if (other.tag == "Enemy")
+        if (collision.transform.tag == "Enemy")
         {
-            triggeringEnemy = other.gameObject;
+            triggeringEnemy = collision.gameObject;
             triggeringEnemy.GetComponent<Enemy>().startHealth -= damage;
             gameObject.SetActive(false);
         }
