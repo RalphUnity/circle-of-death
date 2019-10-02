@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/SphereOfDeath.unity
+    guid: 4d0d2e9b63011e1448482c97dd35457c
   m_configObjects: {}

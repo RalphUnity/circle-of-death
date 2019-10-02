@@ -14,12 +14,12 @@ public class Enemy : MonoBehaviour
     private float currentTime;
     private bool shot;
     [SerializeField]
-    private float range = 10.0f;
+    //private float range = 10.0f;
 
     private GameObject player;
-    private Transform bulletSpawned;
+    //private Transform bulletSpawned;
     private Transform gun;
-    private Transform theEnemy;
+    //private Transform theEnemy;
 
     List<GameObject> bulletList;
 
@@ -111,9 +111,9 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private float Distance()
-    {
-        return Vector3.Distance(theEnemy.position, player.transform.position);
-    }
+    //private float Distance()
+    //{
+    //    return Vector3.Distance(theEnemy.position, player.transform.position);
+    //}
 
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraMain : MonoBehaviour
 {
     //Variables
     public Transform player;
@@ -20,7 +20,7 @@ public class Camera : MonoBehaviour
         pos.y = player.position.y + height;
         transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smooth);
 
-        if(player == null)
+        if (player == null)
         {
 
         }
