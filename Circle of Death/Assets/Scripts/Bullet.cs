@@ -10,13 +10,7 @@ public class Bullet : MonoBehaviour
     public float damage;
 
     private GameObject triggeringEnemy;
-    private GameObject player;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = GameObject.FindWithTag("Player");
-    }
 
     // Update is called once per frame
     void Update()
@@ -48,7 +42,7 @@ public class Bullet : MonoBehaviour
         if (other.tag == "Enemy")
         {
             triggeringEnemy = other.gameObject;
-            triggeringEnemy.GetComponent<Enemy>().health -= damage;
+            triggeringEnemy.GetComponent<Enemy>().startHealth -= damage;
             gameObject.SetActive(false);
         }
 

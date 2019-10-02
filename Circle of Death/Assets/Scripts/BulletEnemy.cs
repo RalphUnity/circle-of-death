@@ -53,6 +53,7 @@ public class BulletEnemy : MonoBehaviour
         if (other.tag == "Player")
         {
             player.GetComponent<Player>().health -= 20;
+            player.GetComponent<PlayerTest>().health -= 20;
             gameObject.SetActive(false);
         }
 

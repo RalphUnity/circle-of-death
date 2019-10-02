@@ -1,41 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
 
     //Variables
-    public float health;
+    public float startHealth = 100; 
+    
     public float pointsToGive;
     public float waitTime;
     public float enemySpeed;
 
+
     private float currentTime;
     private bool shot;
-    [SerializeField]
-    //private float range = 10.0f;
+    public float health;
 
     private GameObject player;
-    //private Transform bulletSpawned;
     private Transform gun;
-    //private Transform theEnemy;
 
     List<GameObject> bulletList;
 
     public GameObject bullet;
     public Transform bulletSpawnPoint;
 
+    [Header("Unity Stuff")]
+    public Image healthBar;
 
-    //private void Awake()
-    //{
-    //    theEnemy = this.transform;
-    //    player = GameObject.FindGameObjectWithTag("Player");
-    //}
+
     // Start is called before the first frame update
     public void Start()
     {
         player = GameObject.FindWithTag("Player");
+        health = startHealth;
 
         //Object Pooling Initialization
         bulletList = new List<GameObject>();
@@ -58,14 +57,16 @@ public class Enemy : MonoBehaviour
         enemySpeed = 0.02f;
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, enemySpeed);
 
+        healthBar.fillAmount = startHealth / health;
+
         if (!bulletSpawnPoint)
         {
             gun = this.transform.GetChild(0);
             bulletSpawnPoint = gun.transform.GetChild(0);
         }
-          
 
-        if (health <= 0)
+
+        if (startHealth <= 0)
         {
             Die();
         }

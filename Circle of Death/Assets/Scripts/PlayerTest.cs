@@ -17,19 +17,15 @@ public class PlayerTest : MonoBehaviour
 
     List<GameObject> bulletList;
 
-    private Rigidbody rb;
     public Joystick joystick;
 
     private float movementSpeed = 7f;
     private float hitDist = 0.0f;
-    private bool isShield = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
         health = maxHealth;
 
         //Object Pooling Initialization
@@ -67,13 +63,6 @@ public class PlayerTest : MonoBehaviour
             Shoot();
         }
 
-        //Force Field Activation
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            isShield = !isShield;
-            forceField.SetActive(isShield);
-        }
-
         //Player Death
         if (health <= 0)
         {
@@ -81,74 +70,32 @@ public class PlayerTest : MonoBehaviour
         }
     }
 
-    public void MoveForward()
-    {
-        transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
-    }
-
-    public void MoveLeft()
-    {
-        transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
-    }
-
-    public void MoveBack()
-    {
-        transform.Translate(Vector3.back * movementSpeed * Time.deltaTime);
-    }
-    public void MoveRight()
-    {
-        transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
-    }
-
     void DetectInput()
     {
         float x = joystick.Horizontal;
         float y = joystick.Vertical;
 
-        if (x > 0.5)
+        if (x > 0.2f)
         {
-            MoveRight();
+            transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
+
         }
 
-        if (x < -0.5)
+        if (x < -0.2f)
         {
-            MoveLeft();
+            transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
         }
 
-        if (y > 0.5)
+        if (y > 0.5f)
         {
-            MoveForward();
+            transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+            
         }
 
-        if (y < -0.5)
+        if (y < -0.5f)
         {
-            MoveBack();
+            transform.Translate(Vector3.back * movementSpeed * Time.deltaTime);
         }
-
-        //if (x > 0 && y > 0)
-        //{
-        //    MoveRight();
-        //    MoveForward();
-        //}
-
-        //if(x < 0 && y > 0)
-        //{
-        //    MoveLeft();
-        //    MoveForward();
-        //}
-
-        //if (x < 0 && y < 0)
-        //{
-        //    MoveLeft();
-        //    MoveBack();
-        //}
-
-        //if (x > 0 && y < 0)
-        //{
-        //    MoveRight();
-        //    MoveBack();
-        //}
-
     }
 
     void Shoot()
