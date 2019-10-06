@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 11b5a08d091e6294e910927b3489fe06
   - enabled: 1
     path: Assets/Scenes/SphereOfDeath.unity
     guid: 4d0d2e9b63011e1448482c97dd35457c

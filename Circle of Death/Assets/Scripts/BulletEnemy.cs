@@ -9,8 +9,8 @@ public class BulletEnemy : MonoBehaviour
     public float maxDistance;
     public float damage;
 
-    private GameObject triggeringEnemy;
     private GameObject player;
+    public GameObject floatingTextPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -43,24 +43,14 @@ public class BulletEnemy : MonoBehaviour
     }
 
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
-        if(collision.transform.tag == "Enemy")
+        if (other.transform.tag == "Player")
         {
-            gameObject.SetActive(false);
+            player.GetComponent<Player>().maxHealth -= damage;
+            player.GetComponent<PlayerTest>().maxHealth -= damage;
         }
 
-        if (collision.transform.tag == "Player")
-        {
-            player.GetComponent<Player>().maxHealth -= 20;
-            player.GetComponent<PlayerTest>().maxHealth -= 20;
-            gameObject.SetActive(false);
-        }
-
-        if (collision.transform.tag == "ForceField")
-        {
-            gameObject.SetActive(false);
-        }
-
+        gameObject.SetActive(false);
     }
 }

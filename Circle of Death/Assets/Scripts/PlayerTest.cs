@@ -16,6 +16,9 @@ public class PlayerTest : MonoBehaviour
     public GameObject playerPosition;
     public GameObject bullet;
     public GameObject forceField;
+    public ParticleSystem deathEffect;
+    public AudioSource gunSound;
+    public Text score;
 
     List<GameObject> bulletList;
 
@@ -26,6 +29,7 @@ public class PlayerTest : MonoBehaviour
 
     [Header("Unity Stuff")]
     public Image healthBar;
+    public Image healthBarMain;
 
 
     // Start is called before the first frame update
@@ -46,7 +50,7 @@ public class PlayerTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        score.text = points.ToString();
         //Player facing mouse
         Plane playerPlane = new Plane(Vector3.up, transform.position);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -57,10 +61,11 @@ public class PlayerTest : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
             targetRotation.x = 0;
             targetRotation.z = 0;
-            playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, targetRotation, 7f * Time.deltaTime);
+            playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, targetRotation, 100f * Time.deltaTime);
         }
 
         healthBar.fillAmount = maxHealth / health;
+        healthBarMain.fillAmount = maxHealth / health;
 
         //Character movement
         DetectInput();
@@ -73,6 +78,7 @@ public class PlayerTest : MonoBehaviour
         //Player Death
         if (maxHealth <= 0)
         {
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
             Die();
         }
     }
@@ -107,7 +113,7 @@ public class PlayerTest : MonoBehaviour
 
     void Shoot()
     {
-
+        gunSound.Play();
         //Shoot objects using object pooling
         for (int i = 0; i < bulletList.Count; i++)
         {

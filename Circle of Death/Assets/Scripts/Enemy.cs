@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -19,21 +20,29 @@ public class Enemy : MonoBehaviour
     public float health;
 
     private GameObject player;
+    [HideInInspector]
+    public GameObject playerPoints;
+    [HideInInspector]
+    public GameObject enemies;
     private Transform gun;
 
     List<GameObject> bulletList;
 
     public GameObject bullet;
+    [HideInInspector]
     public Transform bulletSpawnPoint;
+    public ParticleSystem deathEffect;
+    public GameObject floatingTextPrefab;
 
     [Header("Unity Stuff")]
     public Image healthBar;
-
 
     // Start is called before the first frame update
     public void Start()
     {
         player = GameObject.FindWithTag("PlayerPosition");
+        playerPoints = GameObject.FindWithTag("Player");
+        enemies = GameObject.FindWithTag("GenerateEnemies");
         health = startHealth;
 
         //Object Pooling Initialization
@@ -65,12 +74,6 @@ public class Enemy : MonoBehaviour
             bulletSpawnPoint = gun.transform.GetChild(0);
         }
 
-
-        if (startHealth <= 0)
-        {
-            Die();
-        }
-
         transform.LookAt(player.transform);
 
         if (currentTime == 0)
@@ -90,8 +93,11 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         Destroy(this.gameObject);
-
-        player.GetComponent<Player>().points += pointsToGive;
+        //gameObject.SetActive(false);
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
+        enemies.GetComponent<GenerateEnemies>().enemyCount -= 1;
+        playerPoints.GetComponent<Player>().points += pointsToGive;
+        playerPoints.GetComponent<PlayerTest>().points += pointsToGive;
     }
 
     public void Shoot()
@@ -109,12 +115,23 @@ public class Enemy : MonoBehaviour
                 break;
             }
         }
-
     }
 
-    //private float Distance()
-    //{
-    //    return Vector3.Distance(theEnemy.position, player.transform.position);
-    //}
+    public void TakeDamage(float amount)
+    {
+        startHealth -= amount;
+        
+        if(startHealth <= 0)
+        {
+            Die();
+        }
+
+        if (floatingTextPrefab && startHealth > 0)
+        {
+            var floatTextGO = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
+            floatTextGO.GetComponent<TextMesh>().text = startHealth.ToString();
+        }
+    }
+
 
 }
