@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EnemyBoss : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class EnemyBoss : MonoBehaviour
     public ParticleSystem deathEffect;
     public GameObject floatingTextPrefab;
     public GameObject bossHealthBar;
+
+
 
     [Header("Unity Stuff")]
     public Image healthBar;
@@ -91,8 +94,8 @@ public class EnemyBoss : MonoBehaviour
 
     public void Die()
     {
-        Destroy(gameObject);
-        //gameObject.SetActive(false);
+        
+        gameObject.SetActive(false);
         Instantiate(deathEffect, transform.position, Quaternion.identity);
         playerPoints.GetComponent<Player>().points += pointsToGive;
     }
@@ -128,7 +131,8 @@ public class EnemyBoss : MonoBehaviour
         if (floatingTextPrefab && startHealth > 0)
         {
             var floatTextGO = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
-            floatTextGO.GetComponent<TextMesh>().text = startHealth.ToString();
+            floatTextGO.GetComponent<TextMeshPro>().text = startHealth.ToString();
         }
     }
+
 }

@@ -35,6 +35,13 @@ public class Cooldown : MonoBehaviour
     void Update()
     {
 
+        SpeedIncreaseCooldown();
+        DoubleDamageCooldown();
+        ForceFieldCooldown();  
+    }
+
+    public void SpeedIncreaseCooldown()
+    {
         //SpeedIncrease cooldown
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -51,6 +58,25 @@ public class Cooldown : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            isVisualCooldownSpeedIncrease = true;
+        }
+        if (isVisualCooldownSpeedIncrease)
+        {
+            visualCooldownSpeedIncrease -= 1 * Time.deltaTime;
+            speedIncreaseTextMesh.text = visualCooldownSpeedIncrease.ToString("0");
+            if (visualCooldownSpeedIncrease <= 0)
+            {
+                visualCooldownSpeedIncrease = 15f;
+                isVisualCooldownSpeedIncrease = false;
+                speedIncreaseTextMesh.text = "";
+            }
+        }
+    }
+
+    public void DoubleDamageCooldown()
+    {
         //DoubleDamage cooldown
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -67,7 +93,25 @@ public class Cooldown : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            isVisualCooldownDoubleDamage = true;
+        }
+        if (isVisualCooldownDoubleDamage)
+        {
+            visualCooldownDoubleDamage -= 1 * Time.deltaTime;
+            doubleDamageTextMesh.text = visualCooldownDoubleDamage.ToString("0");
+            if (visualCooldownDoubleDamage <= 0)
+            {
+                visualCooldownDoubleDamage = 20f;
+                isVisualCooldownDoubleDamage = false;
+                doubleDamageTextMesh.text = "";
+            }
+        }
+    }
 
+    public void ForceFieldCooldown()
+    {
         //forcefield cooldown
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -85,37 +129,6 @@ public class Cooldown : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            isVisualCooldownSpeedIncrease = true;
-        }
-        if (isVisualCooldownSpeedIncrease)
-        {
-            visualCooldownSpeedIncrease -= 1 * Time.deltaTime;
-            speedIncreaseTextMesh.text = visualCooldownSpeedIncrease.ToString("0");
-            if (visualCooldownSpeedIncrease <= 0)
-            {
-                isVisualCooldownSpeedIncrease = false;
-                speedIncreaseTextMesh.text = "";
-            }
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            isVisualCooldownDoubleDamage = true;
-        }
-        if (isVisualCooldownDoubleDamage)
-        {
-            visualCooldownDoubleDamage -= 1 * Time.deltaTime;
-            doubleDamageTextMesh.text = visualCooldownDoubleDamage.ToString("0");
-            if (visualCooldownDoubleDamage <= 0)
-            {
-                isVisualCooldownDoubleDamage = false;
-                doubleDamageTextMesh.text = "";
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             isVisualCooldownForceField = true;
@@ -124,13 +137,12 @@ public class Cooldown : MonoBehaviour
         {
             visualCooldownForceField -= 1 * Time.deltaTime;
             forceFieldTextMesh.text = visualCooldownForceField.ToString("0");
-            if(visualCooldownForceField <= 0)
+            if (visualCooldownForceField <= 0)
             {
+                visualCooldownForceField = 30f;
                 isVisualCooldownForceField = false;
                 forceFieldTextMesh.text = "";
             }
         }
-
-
     }
 }

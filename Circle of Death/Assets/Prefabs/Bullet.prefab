@@ -94,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   maxDistance: 0
-  damage: 10
+  damage: 20
 --- !u!135 &1008726298599636270
 SphereCollider:
   m_ObjectHideFlags: 0

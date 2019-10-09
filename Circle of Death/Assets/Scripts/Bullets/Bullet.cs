@@ -17,12 +17,10 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
         maxDistance += 1 * Time.deltaTime;
-
     }
 
     private void OnEnable()
     {
-
         Invoke("hideBullet", 2.0f);
     }
 

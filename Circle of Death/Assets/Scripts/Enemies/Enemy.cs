@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour
 
         transform.LookAt(player.transform);
 
-        if (currentTime == 0)
+        if (currentTime == 0) 
         {
             Shoot();
         }
@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < bulletList.Count; i++)
         {
             if (!bulletList[i].activeInHierarchy)
-            {
+            { 
                 bulletList[i].transform.position = bulletSpawnPoint.transform.position;
                 bulletList[i].transform.rotation = bulletSpawnPoint.transform.rotation;
                 bulletList[i].SetActive(true);
@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
         if (floatingTextPrefab && startHealth > 0)
         {
             var floatTextGO = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
-            floatTextGO.GetComponent<TextMesh>().text = startHealth.ToString();
+            floatTextGO.GetComponent<TextMeshPro>().text = startHealth.ToString();
         }
     }
 

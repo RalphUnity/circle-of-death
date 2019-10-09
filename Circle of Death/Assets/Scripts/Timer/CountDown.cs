@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class CountDown : MonoBehaviour
 {
 
     float currentTime = 0f;
-    float startingTime = 120f;
+    float startingTime = 60f;
     public GameObject boss;
     public GameObject bossHealthBar;
 
-    public Text countdownText;
+    public TextMeshProUGUI countdownText;
     void Start()
     {
         currentTime = startingTime;

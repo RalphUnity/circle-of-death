@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 public class Player : MonoBehaviour
 {
     //Variables
@@ -12,24 +14,26 @@ public class Player : MonoBehaviour
 
     //for Speed Skill
     public float speedDurationTime = 10f;
-    private bool counterActiveForSpeed = false;
+    public GameObject speedIncreaseActivation;
 
     //for double damage skill
     public float doubleDamageDurationTime = 10f;
-    private bool counterActiveForDoubleDamage = false;
+    public GameObject doubleDamageActivation;
 
     //for forcefield skill
     public float forceFieldDurationTime = 10f;
-    private bool counterActiveForForceField = false;
+    public GameObject forceFieldActivation;
 
     public GameObject bulletSpawnPoint;
     public GameObject playerObj;
     public GameObject bullet;
     public GameObject playerPosition;
     public GameObject forceField;
+    public GameObject CooldownGO;
     public ParticleSystem deathEffect;
     public AudioSource gunSound;
-    public Text score;
+    public TextMeshProUGUI score;
+    public TextMeshProUGUI cooldown;
 
     //[SerializeField] private VirtualJoystick inputSource;
 
@@ -37,7 +41,7 @@ public class Player : MonoBehaviour
     List<GameObject> bulletList;
 
     private float hitDist = 0.0f;
-    private float movementSpeed = 7f;
+    public float movementSpeed = 7f;
 
     [Header("Unity Stuff")]
     public Image healthBar;
@@ -111,55 +115,52 @@ public class Player : MonoBehaviour
         }
 
         //Speed Increase Activation
+        var speedIncreaseCooldown = CooldownGO.GetComponent<Cooldown>().visualCooldownSpeedIncrease;
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            movementSpeed = 12f;
-            counterActiveForSpeed = true;
-        }
-        if(speedDurationTime > 0 && counterActiveForSpeed == true)
-        {
-            speedDurationTime -= 1 * Time.deltaTime;
-            if (speedDurationTime <= 0)
+            if (speedIncreaseCooldown > 0 && speedIncreaseCooldown < 14)
             {
-                movementSpeed = 7f;
-                speedDurationTime = 10f;
-                counterActiveForSpeed = false;
+                cooldown.text = "Ability is on cooldown";
+                StartCoroutine(Cooldown());
+            }
+            else
+            {
+                speedIncreaseActivation.GetComponent<SpeedDuration>().ButtonSpeedIncrease();
             }
         }
 
 
         //Double Damage Activation
+        var doubleDamageCooldown = CooldownGO.GetComponent<Cooldown>().visualCooldownDoubleDamage;
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            bullet.GetComponent<Bullet>().damage = 30f;
-            counterActiveForDoubleDamage = true;
-        }
-        if(doubleDamageDurationTime > 0 && counterActiveForDoubleDamage == true)
-        {
-            doubleDamageDurationTime -= 1 * Time.deltaTime;
-            if (doubleDamageDurationTime <= 0)
+            if (doubleDamageCooldown > 0 && doubleDamageCooldown < 19)
             {
-                bullet.GetComponent<Bullet>().damage = 10f;
-                doubleDamageDurationTime = 10f;
-                counterActiveForDoubleDamage = false;
+                cooldown.text = "Ability is on cooldown";
+                StartCoroutine(Cooldown());
+            }
+            else
+            {
+                doubleDamageActivation.GetComponent<DoubleDamageDuration>().ButtonDoubleDamage();
             }
         }
 
 
         //ForceField Activation
+        var forceFieldCooldown = CooldownGO.GetComponent<Cooldown>().visualCooldownForceField;
+
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            forceField.SetActive(true);
-            counterActiveForForceField = true;
-        }
-        if(forceFieldDurationTime > 0 && counterActiveForForceField == true)
-        {
-            forceFieldDurationTime -= 1 * Time.deltaTime;
-            if (forceFieldDurationTime <= 0)
+            if (forceFieldCooldown > 0 && forceFieldCooldown < 29)
             {
-                forceField.SetActive(false);
-                forceFieldDurationTime = 10f;
-                counterActiveForForceField = false;
+                cooldown.text = "Ability is on cooldown";
+                StartCoroutine(Cooldown());
+            }
+            else
+            {
+                forceFieldActivation.GetComponent<ForceFieldDuration>().ButtonForceField();
             }
         }
 
@@ -192,6 +193,12 @@ public class Player : MonoBehaviour
     {
         //playerObj.SetActive(false);
         Destroy(gameObject);
+        FindObjectOfType<GameManager>().EndGame();
     }
 
+    IEnumerator Cooldown()
+    {
+        yield return new WaitForSeconds(3f);
+        cooldown.text = "";
+    }
 }
